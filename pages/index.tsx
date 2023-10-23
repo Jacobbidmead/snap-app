@@ -26,7 +26,9 @@ export default function Home() {
     <>
       <div>
         {showIcons.map((icon, index) => (
-          <div key={index}>{icon}</div>
+          <div key={index} className="grid grid-row-4">
+            <div>{icon}</div>
+          </div>
         ))}
       </div>
     </>
