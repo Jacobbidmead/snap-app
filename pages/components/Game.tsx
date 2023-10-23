@@ -6,9 +6,12 @@ const Game: React.FC<Props> = ({ showIcons }) => {
   return (
     <>
       {" "}
-      <div>
+      <div className="grid grid-cols-4 p-10 bg-black">
         {showIcons.map((icon, index) => (
-          <div key={index} className="grid grid-row-4 text-green">
+          <div
+            className="p-10 text-red-600 border-white border-[1px] m-4 rounded-md cursor-pointer"
+            key={index}
+          >
             <div>{icon}</div>
           </div>
         ))}
