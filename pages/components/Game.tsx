@@ -1,8 +1,9 @@
 interface Props {
   showIcons: number[];
+  shuffleIcons: () => void;
 }
 
-const Game: React.FC<Props> = ({ showIcons }) => {
+const Game: React.FC<Props> = ({ showIcons, shuffleIcons }) => {
   return (
     <>
       {" "}
@@ -16,6 +17,13 @@ const Game: React.FC<Props> = ({ showIcons }) => {
           </div>
         ))}
       </div>
+      <button
+        onClick={() => {
+          const newIcons = shuffleIcons();
+        }}
+      >
+        Randomise
+      </button>
     </>
   );
 };
