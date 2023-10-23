@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import { useState, useEffect } from "react";
+import Game from "./components/game";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,13 +25,7 @@ export default function Home() {
 
   return (
     <>
-      <div>
-        {showIcons.map((icon, index) => (
-          <div key={index} className="grid grid-row-4">
-            <div>{icon}</div>
-          </div>
-        ))}
-      </div>
+      <Game showIcons={showIcons} />
     </>
   );
 }
