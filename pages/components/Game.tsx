@@ -1,9 +1,17 @@
+import { useState, useEffect } from "react";
+
 interface Props {
   showIcons: number[];
   shuffleIcons: () => void;
 }
 
 const Game: React.FC<Props> = ({ showIcons, shuffleIcons }) => {
+  const [card, setCard] = useState(false);
+
+  const handleShowCard = () => {
+    setCard(true);
+  };
+
   return (
     <>
       {" "}
@@ -12,8 +20,9 @@ const Game: React.FC<Props> = ({ showIcons, shuffleIcons }) => {
           <div
             className="p-10 text-red-600 border-white border-[1px] m-4 rounded-md cursor-pointer"
             key={index}
+            onClick={handleShowCard}
           >
-            <div>{icon}</div>
+            {card ? <div>{icon}</div> : null}
           </div>
         ))}
       </div>
