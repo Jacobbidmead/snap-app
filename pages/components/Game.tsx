@@ -20,8 +20,11 @@ const Game: React.FC = () => {
 
   const handleShowCard = (index: number) => {
     if (card.includes(index)) {
-      setCard((prev) => prev.filter((i) => i !== index));
+      // Filter out elements that dont match any indicies in the card array
+      // by creating a new array
+      setCard((prev) => prev.filter((el) => el !== index));
     } else {
+      // Create a new array and add them if element is equal to the index
       setCard((prev) => [...prev, index]);
     }
   };
