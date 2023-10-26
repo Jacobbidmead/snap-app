@@ -38,6 +38,12 @@ const Game: React.FC = () => {
 
   const handleShowCard = (index: number) => {
     findMatch();
+    if (
+      matchedPairs.includes(index) ||
+      card.some((cardItem) => cardItem.index === index)
+    ) {
+      return;
+    }
     // Check if card array contains an object with the given index
     if (card.some((card) => card.index === index)) {
       // Filter out cards with the specified index
@@ -47,6 +53,11 @@ const Game: React.FC = () => {
       setCard((prev) => [...prev, { index: index, value: showIcons[index] }]);
     }
   };
+
+  //   Reset game when max score is reached
+  if (score === 8) {
+    setScore(0), setCard([]), setMatchedPairs([]);
+  }
 
   return (
     <>
