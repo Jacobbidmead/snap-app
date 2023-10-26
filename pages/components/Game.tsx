@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 
 const Game: React.FC = () => {
-  const [card, setCard] = useState(false);
+  const [card, setCard] = useState<number[]>([]);
   const [showIcons, setShowIcons] = useState<number[]>([]);
 
+  let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
+
   const randomIcons = () => {
-    let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
     for (let i = icons.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [icons[i], icons[j]] = [icons[j], icons[i]];
@@ -17,8 +18,12 @@ const Game: React.FC = () => {
     randomIcons();
   }, []);
 
-  const handleShowCard = () => {
-    setCard(true);
+  const handleShowCard = (index: number) => {
+    if (card.includes(index)) {
+      setCard((prev) => prev.filter((i) => i !== index));
+    } else {
+      setCard((prev) => [...prev, index]);
+    }
   };
 
   return (
@@ -29,9 +34,9 @@ const Game: React.FC = () => {
           <div
             className="p-10 text-red-600 border-white border-[1px] m-4 rounded-md cursor-pointer"
             key={index}
-            onClick={handleShowCard}
+            onClick={() => handleShowCard(index)}
           >
-            {card ? <div>{icon}</div> : null}
+            {card.includes(index) ? <div>{icon}</div> : null}
           </div>
         ))}
       </div>
