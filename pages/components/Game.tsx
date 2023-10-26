@@ -1,10 +1,26 @@
 import { useState, useEffect } from "react";
 
+type Card = {
+  index: number;
+  value: number;
+};
+
 const Game: React.FC = () => {
-  const [card, setCard] = useState<number[]>([]);
+  const [card, setCard] = useState<Card[]>([]);
   const [showIcons, setShowIcons] = useState<number[]>([]);
+  const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
 
   let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
+
+  const findMatch = () => {
+    if (card.length === 2) {
+      const [firstCard, secondCard] = card;
+      if (firstCard.value === secondCard.value) {
+        setMatchedPairs([...matchedPairs, firstCard.index, secondCard.index]);
+        setCard([]);
+      } else setCard([]);
+    }
+  };
 
   const randomIcons = () => {
     for (let i = icons.length - 1; i > 0; i--) {
@@ -19,13 +35,15 @@ const Game: React.FC = () => {
   }, []);
 
   const handleShowCard = (index: number) => {
-    if (card.includes(index)) {
-      // Filter out elements that dont match any indicies in the card array
-      // by creating a new array
-      setCard((prev) => prev.filter((el) => el !== index));
+    findMatch();
+
+    // Check if card array contains an object with the given index
+    if (card.some((card) => card.index === index)) {
+      // Filter out cards with the specified index
+      setCard((prev) => prev.filter((card) => card.index !== index));
     } else {
-      // Create a new array and add them if element is equal to the index
-      setCard((prev) => [...prev, index]);
+      // Add a new card object
+      setCard((prev) => [...prev, { index: index, value: showIcons[index] }]);
     }
   };
 
@@ -39,7 +57,9 @@ const Game: React.FC = () => {
             key={index}
             onClick={() => handleShowCard(index)}
           >
-            {card.includes(index) ? <div>{icon}</div> : null}
+            {card.some((cardItem) => cardItem.index === index) ? (
+              <div>{icon}</div>
+            ) : null}
           </div>
         ))}
       </div>
