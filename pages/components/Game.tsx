@@ -9,6 +9,7 @@ const Game: React.FC = () => {
   const [card, setCard] = useState<Card[]>([]);
   const [showIcons, setShowIcons] = useState<number[]>([]);
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
+  const [score, setScore] = useState<number>(0);
 
   let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
 
@@ -18,6 +19,7 @@ const Game: React.FC = () => {
       if (firstCard.value === secondCard.value) {
         setMatchedPairs([...matchedPairs, firstCard.index, secondCard.index]);
         setCard([]);
+        setScore((prevScore) => prevScore + 1);
       } else setCard([]);
     }
   };
@@ -36,7 +38,6 @@ const Game: React.FC = () => {
 
   const handleShowCard = (index: number) => {
     findMatch();
-
     // Check if card array contains an object with the given index
     if (card.some((card) => card.index === index)) {
       // Filter out cards with the specified index
@@ -70,6 +71,7 @@ const Game: React.FC = () => {
       >
         Randomise
       </button>
+      <div>{score}</div>
     </>
   );
 };
