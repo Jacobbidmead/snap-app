@@ -58,7 +58,8 @@ const Game: React.FC = () => {
             key={index}
             onClick={() => handleShowCard(index)}
           >
-            {card.some((cardItem) => cardItem.index === index) ? (
+            {card.some((cardItem) => cardItem.index === index) ||
+            matchedPairs.includes(index) ? (
               <div>{icon}</div>
             ) : null}
           </div>
