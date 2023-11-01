@@ -27,8 +27,27 @@ const Game: React.FC = () => {
   const [showIcons, setShowIcons] = useState<number[]>([]);
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
   const [score, setScore] = useState<number>(0);
+  const [moves, setMoves] = useState<number>(0);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [endTime, setEndTime] = useState<number | null>(null);
+  const [leaderboard, setLeaderboard] = useState<number[]>([]);
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
 
   let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout | null = null;
+
+    if (startTime !== null && endTime === null) {
+      timer = setInterval(() => {
+        setElapsedTime(Date.now() - startTime);
+      }, 1000);
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [startTime, endTime]);
 
   const findMatch = () => {
     if (card.length === 2) {
@@ -56,38 +75,59 @@ const Game: React.FC = () => {
   }, []);
 
   const handleShowCard = (index: number) => {
-    findMatch();
     if (
       matchedPairs.includes(index) ||
       card.some((cardItem) => cardItem.index === index)
     ) {
       return;
     }
-    // Check if card array contains an object with the given index
+
     if (card.some((card) => card.index === index)) {
-      // Filter out cards with the specified index
       setCard((prev) => prev.filter((card) => card.index !== index));
     } else {
-      // Add a new card object
       setCard((prev) => [...prev, { index: index, value: showIcons[index] }]);
     }
+
+    if (moves === 0 && startTime === null) {
+      setStartTime(Date.now());
+    }
+
+    if (card.length === 1) {
+      setMoves((prevMoves) => prevMoves + 1);
+    }
+
+    findMatch();
   };
 
-  //   Reset game when max score is reached
-  if (score === 8) {
-    setScore(0), setCard([]), setMatchedPairs([]);
-  }
-
-  // Match images to icon number
   const getAssetUrl = (iconId: number): string => {
     const asset = imageAssets.find((asset) => asset.id === iconId);
     if (asset) return asset.url;
     return "/path/to/default/image.png"; // Fallback
   };
 
+  const calculateScore = () => {
+    const timeTaken = (endTime! - startTime!) / 1000;
+    const baseScore = icons.length * 10;
+    return baseScore - (moves + timeTaken);
+  };
+
+  const updateLeaderboard = (newScore: number) => {
+    const updatedScores = [...leaderboard, newScore]
+      .sort((a, b) => b - a)
+      .slice(0, 10);
+    setLeaderboard(updatedScores);
+  };
+
+  useEffect(() => {
+    if (score === 8) {
+      setEndTime(Date.now());
+      const finalScore = calculateScore();
+      updateLeaderboard(finalScore);
+    }
+  }, [score]);
+
   return (
     <>
-      {" "}
       <div className="grid grid-cols-4 p-10 ">
         {showIcons.map((icon, index) => (
           <div
@@ -119,14 +159,16 @@ const Game: React.FC = () => {
           </div>
         ))}
       </div>
-      <button
-        onClick={() => {
-          randomIcons();
-        }}
-      >
-        New Game
-      </button>
-      <div>{score}</div>
+      <button onClick={randomIcons}>New Game</button>
+      <div>Score: {score}</div>
+      <div>Moves: {moves}</div>
+      <div>
+        Time Elapsed: {new Date(elapsedTime).toISOString().substr(14, 5)}
+      </div>
+      <div>
+        Game Started: {startTime && new Date(startTime).toLocaleTimeString()}
+      </div>
+      <div>Game Ended: {endTime && new Date(endTime).toLocaleTimeString()}</div>
     </>
   );
 };
