@@ -77,7 +77,7 @@ const Game: React.FC = () => {
     setScore(0), setCard([]), setMatchedPairs([]);
   }
 
-  // Handle images
+  // Match images to icon number
   const getAssetUrl = (iconId: number): string => {
     const asset = imageAssets.find((asset) => asset.id === iconId);
     if (asset) return asset.url;
@@ -102,15 +102,16 @@ const Game: React.FC = () => {
                   : ""
               }`}
             >
-              <div className="card-front bg-gray-200 flex items-center justify-center">
+              <div className="card-front bg-black flex items-center justify-center">
                 ?
               </div>
-              <div className="card-back bg-red-200 flex items-center justify-center">
+              <div className="card-back flex items-center justify-center">
                 <Image
                   src={getAssetUrl(icon)}
                   alt="Character"
-                  width={200}
-                  height={300}
+                  width={500}
+                  height={400}
+                  className="rounded-md"
                 />
               </div>
             </div>
@@ -122,7 +123,7 @@ const Game: React.FC = () => {
           randomIcons();
         }}
       >
-        Randomise
+        New Game
       </button>
       <div>{score}</div>
     </>
