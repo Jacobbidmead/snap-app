@@ -48,6 +48,7 @@ const Game: React.FC = () => {
     }
     setShowIcons(icons);
     setCard([]);
+    setMatchedPairs([]);
   };
 
   useEffect(() => {
