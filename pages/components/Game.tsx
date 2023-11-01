@@ -65,14 +65,25 @@ const Game: React.FC = () => {
       <div className="grid grid-cols-4 p-10 bg-black">
         {showIcons.map((icon, index) => (
           <div
-            className="p-10 text-red-600 border-white border-[1px] m-4 rounded-md cursor-pointer"
+            className="flip-card p-10 text-red-600 border-white border-[1px] m-4 rounded-md cursor-pointer"
             key={index}
             onClick={() => handleShowCard(index)}
           >
-            {card.some((cardItem) => cardItem.index === index) ||
-            matchedPairs.includes(index) ? (
-              <div>{icon}</div>
-            ) : null}
+            <div
+              className={`flip-content ${
+                card.some((cardItem) => cardItem.index === index) ||
+                matchedPairs.includes(index)
+                  ? "flipped"
+                  : ""
+              }`}
+            >
+              <div className="card-front bg-gray-200 flex items-center justify-center">
+                ?
+              </div>
+              <div className="card-back bg-red-200 flex items-center justify-center">
+                {icon}
+              </div>
+            </div>
           </div>
         ))}
       </div>
