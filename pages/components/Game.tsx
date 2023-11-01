@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 type Card = {
   index: number;
@@ -76,6 +77,13 @@ const Game: React.FC = () => {
     setScore(0), setCard([]), setMatchedPairs([]);
   }
 
+  // Handle images
+  const getAssetUrl = (iconId: number): string => {
+    const asset = imageAssets.find((asset) => asset.id === iconId);
+    if (asset) return asset.url;
+    return "/path/to/default/image.png"; // Fallback
+  };
+
   return (
     <>
       {" "}
@@ -98,7 +106,12 @@ const Game: React.FC = () => {
                 ?
               </div>
               <div className="card-back bg-red-200 flex items-center justify-center">
-                {icon}
+                <Image
+                  src={getAssetUrl(icon)}
+                  alt="Character"
+                  width={200}
+                  height={300}
+                />
               </div>
             </div>
           </div>
