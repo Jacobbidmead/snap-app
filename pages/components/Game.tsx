@@ -5,6 +5,22 @@ type Card = {
   value: number;
 };
 
+type ImageAsset = {
+  id: number;
+  url: string;
+};
+
+const imageAssets: ImageAsset[] = [
+  { id: 1, url: "/photos/guard.png" },
+  { id: 2, url: "/photos/kingL.png" },
+  { id: 3, url: "/photos/kingV.png" },
+  { id: 4, url: "/photos/largeria.png" },
+  { id: 5, url: "/photos/princeL.png" },
+  { id: 6, url: "/photos/princeV.png" },
+  { id: 7, url: "/photos/queenL.png" },
+  { id: 8, url: "/photos/queenV.png" },
+];
+
 const Game: React.FC = () => {
   const [card, setCard] = useState<Card[]>([]);
   const [showIcons, setShowIcons] = useState<number[]>([]);
@@ -30,6 +46,7 @@ const Game: React.FC = () => {
       [icons[i], icons[j]] = [icons[j], icons[i]];
     }
     setShowIcons(icons);
+    setCard([]);
   };
 
   useEffect(() => {
@@ -62,7 +79,7 @@ const Game: React.FC = () => {
   return (
     <>
       {" "}
-      <div className="grid grid-cols-4 p-10 bg-black">
+      <div className="grid grid-cols-4 p-10 ">
         {showIcons.map((icon, index) => (
           <div
             className="flip-card p-10 text-red-600 border-white border-[1px] m-4 rounded-md cursor-pointer"
