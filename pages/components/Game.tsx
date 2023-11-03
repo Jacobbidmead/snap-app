@@ -23,7 +23,7 @@ const imageAssets: ImageAsset[] = [
 ];
 
 const Game: React.FC = () => {
-  const [card, setCard] = useState<Card[]>([]);
+  const [cards, setCards] = useState<Card[]>([]);
   const [showIcons, setShowIcons] = useState<number[]>([]);
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
   const [score, setScore] = useState<number>(0);
@@ -35,30 +35,33 @@ const Game: React.FC = () => {
 
   let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
 
+  //   const findMatch = () => {
+  //     if (card.length === 2) {
+  //       const [firstCard, secondCard] = card;
+  //       if (firstCard.value === secondCard.value) {
+  //         setMatchedPairs([...matchedPairs, firstCard.index, secondCard.index]);
+  //         setCard([]);
+  //         setScore((prevScore) => prevScore + 1);
+  //       } else setCard([]);
+  //     }
+  //   };
+
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
-
-    if (startTime !== null && endTime === null) {
-      timer = setInterval(() => {
-        setElapsedTime(Date.now() - startTime);
-      }, 1000);
-    }
-
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [startTime, endTime]);
-
-  const findMatch = () => {
-    if (card.length === 2) {
-      const [firstCard, secondCard] = card;
+    // Moved the findMatch logic here to react to state changes properly
+    if (cards.length === 2) {
+      setMoves((prevMoves) => prevMoves + 1);
+      const [firstCard, secondCard] = cards;
       if (firstCard.value === secondCard.value) {
-        setMatchedPairs([...matchedPairs, firstCard.index, secondCard.index]);
-        setCard([]);
+        setMatchedPairs((prevMatchedPairs) => [
+          ...prevMatchedPairs,
+          firstCard.index,
+          secondCard.index,
+        ]);
         setScore((prevScore) => prevScore + 1);
-      } else setCard([]);
+      }
+      setTimeout(() => setCards([]), 1000); // Clear cards after 1 second
     }
-  };
+  }, [cards]);
 
   const randomIcons = () => {
     for (let i = icons.length - 1; i > 0; i--) {
@@ -66,7 +69,7 @@ const Game: React.FC = () => {
       [icons[i], icons[j]] = [icons[j], icons[i]];
     }
     setShowIcons(icons);
-    setCard([]);
+    setCards([]);
     setMatchedPairs([]);
   };
 
@@ -74,29 +77,50 @@ const Game: React.FC = () => {
     randomIcons();
   }, []);
 
+  //   const handleShowCard = (index: number) => {
+  //     if (
+  //       matchedPairs.includes(index) ||
+  //       cards.some((cardItem) => cardItem.index === index)
+  //     ) {
+  //       return;
+  //     }
+
+  //     if (cards.some((card) => card.index === index)) {
+  //       setCards((prev) => prev.filter((cards) => cards.index !== index));
+  //     } else {
+  //       setCards((prev) => [...prev, { index: index, value: showIcons[index] }]);
+  //     }
+
+  //     if (moves === 0 && startTime === null) {
+  //       setStartTime(Date.now());
+  //     }
+
+  //     if (cards.length === 1) {
+  //       setMoves((prevMoves) => prevMoves + 1);
+  //     }
+
+  //     findMatch();
+  //   };
+
   const handleShowCard = (index: number) => {
     if (
       matchedPairs.includes(index) ||
-      card.some((cardItem) => cardItem.index === index)
+      cards.some((card) => card.index === index)
     ) {
       return;
     }
 
-    if (card.some((card) => card.index === index)) {
-      setCard((prev) => prev.filter((card) => card.index !== index));
-    } else {
-      setCard((prev) => [...prev, { index: index, value: showIcons[index] }]);
-    }
+    const newCard = { index, value: showIcons[index] };
+    setCards((prev) => [...prev, newCard]);
 
     if (moves === 0 && startTime === null) {
       setStartTime(Date.now());
     }
 
-    if (card.length === 1) {
+    if (cards.length === 0) {
+      // Only update moves when adding the first card
       setMoves((prevMoves) => prevMoves + 1);
     }
-
-    findMatch();
   };
 
   const getAssetUrl = (iconId: number): string => {
@@ -119,9 +143,9 @@ const Game: React.FC = () => {
   };
 
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
-
-    if (startTime !== null && endTime === null) {
+    // This effect replaces both of the timer effects you had
+    let timer: ReturnType<typeof setInterval> | null = null;
+    if (startTime && !endTime) {
       timer = setInterval(() => {
         setElapsedTime(Date.now() - startTime);
       }, 1000);
@@ -143,7 +167,7 @@ const Game: React.FC = () => {
           >
             <div
               className={`flip-content ${
-                card.some((cardItem) => cardItem.index === index) ||
+                cards.some((cardItem) => cardItem.index === index) ||
                 matchedPairs.includes(index)
                   ? "flipped"
                   : ""
