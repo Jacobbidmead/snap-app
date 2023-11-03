@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Scoreboard from "./scoreboard";
 
 type Card = {
   index: number;
@@ -30,21 +31,10 @@ const Game: React.FC = () => {
   const [moves, setMoves] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [endTime, setEndTime] = useState<number | null>(null);
-  const [leaderboard, setLeaderboard] = useState<number[]>([]);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
+  const [isGameActive, setIsGameActive] = useState<boolean>(false);
 
   let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
-
-  //   const findMatch = () => {
-  //     if (card.length === 2) {
-  //       const [firstCard, secondCard] = card;
-  //       if (firstCard.value === secondCard.value) {
-  //         setMatchedPairs([...matchedPairs, firstCard.index, secondCard.index]);
-  //         setCard([]);
-  //         setScore((prevScore) => prevScore + 1);
-  //       } else setCard([]);
-  //     }
-  //   };
 
   useEffect(() => {
     // Moved the findMatch logic here to react to state changes properly
@@ -63,6 +53,7 @@ const Game: React.FC = () => {
     }
   }, [cards]);
 
+  //   Randomise numbers in icons array.
   const randomIcons = () => {
     for (let i = icons.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -71,36 +62,12 @@ const Game: React.FC = () => {
     setShowIcons(icons);
     setCards([]);
     setMatchedPairs([]);
+    startGame();
   };
 
   useEffect(() => {
     randomIcons();
   }, []);
-
-  //   const handleShowCard = (index: number) => {
-  //     if (
-  //       matchedPairs.includes(index) ||
-  //       cards.some((cardItem) => cardItem.index === index)
-  //     ) {
-  //       return;
-  //     }
-
-  //     if (cards.some((card) => card.index === index)) {
-  //       setCards((prev) => prev.filter((cards) => cards.index !== index));
-  //     } else {
-  //       setCards((prev) => [...prev, { index: index, value: showIcons[index] }]);
-  //     }
-
-  //     if (moves === 0 && startTime === null) {
-  //       setStartTime(Date.now());
-  //     }
-
-  //     if (cards.length === 1) {
-  //       setMoves((prevMoves) => prevMoves + 1);
-  //     }
-
-  //     findMatch();
-  //   };
 
   const handleShowCard = (index: number) => {
     if (
@@ -113,13 +80,9 @@ const Game: React.FC = () => {
     const newCard = { index, value: showIcons[index] };
     setCards((prev) => [...prev, newCard]);
 
-    if (moves === 0 && startTime === null) {
-      setStartTime(Date.now());
-    }
-
     if (cards.length === 0) {
       // Only update moves when adding the first card
-      setMoves((prevMoves) => prevMoves + 1);
+      setMoves((prevMoves) => prevMoves++);
     }
   };
 
@@ -129,32 +92,43 @@ const Game: React.FC = () => {
     return "/path/to/default/image.png"; // Fallback
   };
 
-  const calculateScore = () => {
-    const timeTaken = (endTime! - startTime!) / 1000;
-    const baseScore = icons.length * 10;
-    return baseScore - (moves + timeTaken);
-  };
-
-  const updateLeaderboard = (newScore: number) => {
-    const updatedScores = [...leaderboard, newScore]
-      .sort((a, b) => b - a)
-      .slice(0, 10);
-    setLeaderboard(updatedScores);
-  };
-
   useEffect(() => {
-    // This effect replaces both of the timer effects you had
-    let timer: ReturnType<typeof setInterval> | null = null;
-    if (startTime && !endTime) {
+    let timer: NodeJS.Timeout | null = null;
+
+    if (isGameActive) {
       timer = setInterval(() => {
         setElapsedTime(Date.now() - startTime);
       }, 1000);
+    } else if (timer) {
+      clearInterval(timer);
     }
 
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [startTime, endTime]);
+  }, [isGameActive, startTime]);
+
+  // Use this function to start the game
+  const startGame = () => {
+    if (!isGameActive) {
+      setStartTime(Date.now());
+      setIsGameActive(true);
+    }
+  };
+
+  // Use this function to end the game
+  const endGame = () => {
+    setIsGameActive(false);
+    setEndTime(Date.now());
+    // Perform other end game actions
+    // ...
+  };
+
+  useEffect(() => {
+    if (matchedPairs.length === icons.length) {
+      endGame();
+    }
+  }, [matchedPairs, icons.length]);
 
   return (
     <>
@@ -190,15 +164,7 @@ const Game: React.FC = () => {
         ))}
       </div>
       <button onClick={randomIcons}>New Game</button>
-      <div>Score: {score}</div>
-      <div>Moves: {moves}</div>
-      <div>
-        Time Elapsed: {new Date(elapsedTime).toISOString().substr(14, 5)}
-      </div>
-      <div>
-        Game Started: {startTime && new Date(startTime).toLocaleTimeString()}
-      </div>
-      <div>Game Ended: {endTime && new Date(endTime).toLocaleTimeString()}</div>
+      <Scoreboard score={score} moves={moves} elapsedTime={elapsedTime} />
     </>
   );
 };
