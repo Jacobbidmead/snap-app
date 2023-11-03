@@ -124,6 +124,7 @@ const Game: React.FC = () => {
     setScore(0);
     setMoves(0);
     setStartTime(0);
+    setMatchedPairs([]);
   };
   // Reset the game when the game ends
   useEffect(() => {
