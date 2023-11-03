@@ -29,7 +29,7 @@ const Game: React.FC = () => {
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
   const [score, setScore] = useState<number>(0);
   const [moves, setMoves] = useState<number>(0);
-  const [startTime, setStartTime] = useState<number | null>(null);
+  const [startTime, setStartTime] = useState<number | null>(0);
   const [endTime, setEndTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [isGameActive, setIsGameActive] = useState<boolean>(false);
@@ -120,10 +120,12 @@ const Game: React.FC = () => {
   const endGame = () => {
     setIsGameActive(false);
     setEndTime(Date.now());
-    // Perform other end game actions
-    // ...
+    setCards([]);
+    setScore(0);
+    setMoves(0);
+    setStartTime(0);
   };
-
+  // Reset the game when the game ends
   useEffect(() => {
     if (matchedPairs.length === icons.length) {
       endGame();
