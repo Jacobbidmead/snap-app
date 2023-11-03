@@ -119,12 +119,18 @@ const Game: React.FC = () => {
   };
 
   useEffect(() => {
-    if (score === 8) {
-      setEndTime(Date.now());
-      const finalScore = calculateScore();
-      updateLeaderboard(finalScore);
+    let timer: NodeJS.Timeout | null = null;
+
+    if (startTime !== null && endTime === null) {
+      timer = setInterval(() => {
+        setElapsedTime(Date.now() - startTime);
+      }, 1000);
     }
-  }, [score]);
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [startTime, endTime]);
 
   return (
     <>
