@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Scoreboard from "./scoreboard";
+import Home from "./home";
 
 type Card = {
   index: number;
@@ -110,7 +111,7 @@ const Game: React.FC = () => {
 
   return (
     <>
-      <div className="bg-black h-screen grid grid-cols-2 text-white">
+      <div className="bg-black grid grid-cols-2 text-white">
         <div className="flex flex-col items-center justify-center p-4">
           <h1 className="text-4xl font-bold mb-2 text-white">
             Match the shapes
@@ -129,7 +130,7 @@ const Game: React.FC = () => {
         <div className="grid grid-cols-4 gap-6 h-screen p-10">
           {showIcons.map((icon, index) => (
             <div
-              className="flip-card h-full text-black  border-white border-[1px] rounded-md cursor-pointer"
+              className="flip-card h-full text-black rounded-md cursor-pointer p-1 "
               key={index}
               onClick={() => handleShowCard(index)}
             >
@@ -147,8 +148,8 @@ const Game: React.FC = () => {
                     alt="Character"
                     layout="fill" // Changed to fill for responsive images
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    objectFit="contain" // Ensures the image covers the card
-                    className="rounded-md"
+                    objectFit="cover" // Ensures the image covers the card
+                    className="rounded-md card-shadow"
                   />
                 </div>
                 <div className="card-back flex items-center justify-center">
@@ -157,8 +158,8 @@ const Game: React.FC = () => {
                     alt="Character"
                     layout="fill" // Changed to fill for responsive images
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    objectFit="contain" // Ensures the image covers the card
-                    className="rounded-md"
+                    objectFit="cover" // Ensures the image covers the card
+                    className="rounded-md card-shadow"
                   />
                 </div>
               </div>
