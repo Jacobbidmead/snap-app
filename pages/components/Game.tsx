@@ -97,7 +97,7 @@ const Game: React.FC = () => {
 
   // Use this function to end the game
   const endGame = () => {
-    setGameStatus(`You win!! you finished the game in ${moves} moves`);
+    setGameStatus(`You win!! you matched the shapes in ${moves} moves`);
     setCards([]);
   };
 
@@ -110,46 +110,61 @@ const Game: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center p-4">
-        <h1 className="text-4xl font-bold mb-2">Snap Memory Game</h1>
-      </div>
+      <div className="bg-black h-screen grid grid-cols-2 text-white">
+        <div className="flex flex-col items-center justify-center p-4">
+          <h1 className="text-4xl font-bold mb-2 text-white">
+            Match the shapes
+          </h1>
 
-      <div className="grid grid-cols-4 p-10 ">
-        {showIcons.map((icon, index) => (
-          <div
-            className="flip-card p-10 text-black border-white border-[1px] m-4 rounded-md cursor-pointer"
-            key={index}
-            onClick={() => handleShowCard(index)}
-          >
+          <button onClick={randomIcons}>Restart Game</button>
+          <Scoreboard score={score} moves={moves} />
+
+          <div>
+            {gameStatus && (
+              <div className="game-status-message">{gameStatus}</div>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-4 gap-6 h-screen p-10">
+          {showIcons.map((icon, index) => (
             <div
-              className={`flip-content ${
-                cards.some((cardItem) => cardItem.index === index) ||
-                matchedPairs.includes(index)
-                  ? "flipped"
-                  : ""
-              }`}
+              className="flip-card h-full text-black  border-white border-[1px] rounded-md cursor-pointer"
+              key={index}
+              onClick={() => handleShowCard(index)}
             >
-              <div className="card-front bg-black flex items-center justify-center">
-                ?
-              </div>
-              <div className="card-back flex items-center justify-center">
-                <Image
-                  src={getAssetUrl(icon)}
-                  alt="Character"
-                  width={100}
-                  height={100}
-                  className="rounded-md"
-                />
+              <div
+                className={`flip-content ${
+                  cards.some((cardItem) => cardItem.index === index) ||
+                  matchedPairs.includes(index)
+                    ? "flipped"
+                    : ""
+                }`}
+              >
+                <div className="card-front flex items-center justify-center">
+                  <Image
+                    src={"/photos/card.png"}
+                    alt="Character"
+                    layout="fill" // Changed to fill for responsive images
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    objectFit="contain" // Ensures the image covers the card
+                    className="rounded-md"
+                  />
+                </div>
+                <div className="card-back flex items-center justify-center">
+                  <Image
+                    src={getAssetUrl(icon)}
+                    alt="Character"
+                    layout="fill" // Changed to fill for responsive images
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    objectFit="contain" // Ensures the image covers the card
+                    className="rounded-md"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-
-      <button onClick={randomIcons}>Restart Game</button>
-      <Scoreboard score={score} moves={moves} />
-      <div>
-        {gameStatus && <div className="game-status-message">{gameStatus}</div>}
+          ))}
+        </div>
       </div>
     </>
   );
