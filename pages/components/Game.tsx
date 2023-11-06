@@ -31,7 +31,7 @@ const Game: React.FC = () => {
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
   const [score, setScore] = useState<number>(0);
   const [moves, setMoves] = useState<number>(0);
-  const [isGameActive, setIsGameActive] = useState<boolean>(true);
+  const [gameStatus, setGameStatus] = useState<string>("");
 
   //   Assign image url to icons element
   const getAssetUrl = (iconId: number): string => {
@@ -71,6 +71,7 @@ const Game: React.FC = () => {
     setMatchedPairs([]);
     setScore(0);
     setMoves(0);
+    setGameStatus("");
   };
 
   useEffect(() => {
@@ -96,15 +97,16 @@ const Game: React.FC = () => {
 
   // Use this function to end the game
   const endGame = () => {
-    setIsGameActive(false);
+    setGameStatus(`You win!! you finished the game in ${moves} moves`);
     setCards([]);
   };
+
   // Reset the game when the game ends
   useEffect(() => {
     if (matchedPairs.length === icons.length) {
       endGame();
     }
-  }, [matchedPairs]);
+  }, [matchedPairs, icons.length]);
 
   return (
     <>
@@ -141,7 +143,9 @@ const Game: React.FC = () => {
       </div>
       <button onClick={randomIcons}>Restart Game</button>
       <Scoreboard score={score} moves={moves} />
-      <div></div>
+      <div>
+        {gameStatus && <div className="game-status-message">{gameStatus}</div>}
+      </div>
     </>
   );
 };
