@@ -23,15 +23,22 @@ const imageAssets: ImageAsset[] = [
   { id: 8, url: "/photos/queenV.png" },
 ];
 
+let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
+
 const Game: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [showIcons, setShowIcons] = useState<number[]>([]);
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
   const [score, setScore] = useState<number>(0);
   const [moves, setMoves] = useState<number>(0);
-  const [isGameActive, setIsGameActive] = useState<boolean>(false);
+  const [isGameActive, setIsGameActive] = useState<boolean>(true);
 
-  let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
+  //   Assign image url to icons element
+  const getAssetUrl = (iconId: number): string => {
+    const asset = imageAssets.find((asset) => asset.id === iconId);
+    if (asset) return asset.url;
+    return "/path/to/default/image.png"; // Fallback
+  };
 
   useEffect(() => {
     // if the cards array is less than 2 in length, add one to moves
@@ -87,12 +94,6 @@ const Game: React.FC = () => {
     }
   };
 
-  const getAssetUrl = (iconId: number): string => {
-    const asset = imageAssets.find((asset) => asset.id === iconId);
-    if (asset) return asset.url;
-    return "/path/to/default/image.png"; // Fallback
-  };
-
   // Use this function to end the game
   const endGame = () => {
     setIsGameActive(false);
@@ -103,7 +104,7 @@ const Game: React.FC = () => {
     if (matchedPairs.length === icons.length) {
       endGame();
     }
-  }, [matchedPairs, icons.length]);
+  }, [matchedPairs]);
 
   return (
     <>
@@ -140,6 +141,7 @@ const Game: React.FC = () => {
       </div>
       <button onClick={randomIcons}>Restart Game</button>
       <Scoreboard score={score} moves={moves} />
+      <div></div>
     </>
   );
 };
