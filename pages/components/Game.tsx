@@ -37,10 +37,12 @@ const Game: React.FC = () => {
   let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
 
   useEffect(() => {
-    // Moved the findMatch logic here to react to state changes properly
+    // if the cards array is less than 2 in length, add one to moves
     if (cards.length === 2) {
       setMoves((prevMoves) => prevMoves + 1);
       const [firstCard, secondCard] = cards;
+      //   cards are equal to an array of two elements that represent the cards clicked
+      // If the first card is eqaul to the second card set the matched pairs array to their respective indicies
       if (firstCard.value === secondCard.value) {
         setMatchedPairs((prevMatchedPairs) => [
           ...prevMatchedPairs,
@@ -48,12 +50,13 @@ const Game: React.FC = () => {
           secondCard.index,
         ]);
         setScore((prevScore) => prevScore + 1);
+        // then update score counter
       }
       setTimeout(() => setCards([]), 1000); // Clear cards after 1 second
     }
   }, [cards]);
 
-  //   Randomise numbers in icons array.
+  //  Randomise numbers in icons array.
   const randomIcons = () => {
     for (let i = icons.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -124,7 +127,6 @@ const Game: React.FC = () => {
     setScore(0);
     setMoves(0);
     setStartTime(0);
-    setMatchedPairs([]);
   };
   // Reset the game when the game ends
   useEffect(() => {
@@ -166,7 +168,7 @@ const Game: React.FC = () => {
           </div>
         ))}
       </div>
-      <button onClick={randomIcons}>New Game</button>
+      <button onClick={randomIcons}>Restart Game</button>
       <Scoreboard score={score} moves={moves} elapsedTime={elapsedTime} />
     </>
   );
