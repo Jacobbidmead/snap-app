@@ -3,10 +3,9 @@ import { useState } from "react";
 interface Props {
   score: number;
   moves: number;
-  elapsedTime: number;
 }
 
-const Scoreboard: React.FC<Props> = ({ score, moves, elapsedTime }) => {
+const Scoreboard: React.FC<Props> = ({ score, moves }) => {
   const [leaderboard, setLeaderboard] = useState<number[]>([]);
 
   const updateLeaderboard = (newScore: number) => {
@@ -21,9 +20,6 @@ const Scoreboard: React.FC<Props> = ({ score, moves, elapsedTime }) => {
       {" "}
       <div>Score: {score}</div>
       <div>Moves: {moves}</div>
-      <div>
-        Time Elapsed: {new Date(elapsedTime).toISOString().slice(11, 16)}
-      </div>
     </>
   );
 };

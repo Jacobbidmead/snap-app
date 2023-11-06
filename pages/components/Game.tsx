@@ -29,9 +29,6 @@ const Game: React.FC = () => {
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
   const [score, setScore] = useState<number>(0);
   const [moves, setMoves] = useState<number>(0);
-  const [startTime, setStartTime] = useState<number | null>(0);
-  const [endTime, setEndTime] = useState<number | null>(null);
-  const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [isGameActive, setIsGameActive] = useState<boolean>(false);
 
   let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
@@ -65,7 +62,8 @@ const Game: React.FC = () => {
     setShowIcons(icons);
     setCards([]);
     setMatchedPairs([]);
-    startGame();
+    setScore(0);
+    setMoves(0);
   };
 
   useEffect(() => {
@@ -95,38 +93,10 @@ const Game: React.FC = () => {
     return "/path/to/default/image.png"; // Fallback
   };
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
-
-    if (isGameActive) {
-      timer = setInterval(() => {
-        setElapsedTime(Date.now() - startTime);
-      }, 1000);
-    } else if (timer) {
-      clearInterval(timer);
-    }
-
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [isGameActive, startTime]);
-
-  // Use this function to start the game
-  const startGame = () => {
-    if (!isGameActive) {
-      setStartTime(Date.now());
-      setIsGameActive(true);
-    }
-  };
-
   // Use this function to end the game
   const endGame = () => {
     setIsGameActive(false);
-    setEndTime(Date.now());
     setCards([]);
-    setScore(0);
-    setMoves(0);
-    setStartTime(0);
   };
   // Reset the game when the game ends
   useEffect(() => {
@@ -169,7 +139,7 @@ const Game: React.FC = () => {
         ))}
       </div>
       <button onClick={randomIcons}>Restart Game</button>
-      <Scoreboard score={score} moves={moves} elapsedTime={elapsedTime} />
+      <Scoreboard score={score} moves={moves} />
     </>
   );
 };
