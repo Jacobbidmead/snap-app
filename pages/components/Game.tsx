@@ -110,10 +110,14 @@ const Game: React.FC = () => {
 
   return (
     <>
+      <div className="flex flex-col items-center justify-center p-4">
+        <h1 className="text-4xl font-bold mb-2">Snap Memory Game</h1>
+      </div>
+
       <div className="grid grid-cols-4 p-10 ">
         {showIcons.map((icon, index) => (
           <div
-            className="flip-card p-10 text-red-600 border-white border-[1px] m-4 rounded-md cursor-pointer"
+            className="flip-card p-10 text-black border-white border-[1px] m-4 rounded-md cursor-pointer"
             key={index}
             onClick={() => handleShowCard(index)}
           >
@@ -141,6 +145,7 @@ const Game: React.FC = () => {
           </div>
         ))}
       </div>
+
       <button onClick={randomIcons}>Restart Game</button>
       <Scoreboard score={score} moves={moves} />
       <div>
