@@ -13,14 +13,14 @@ type ImageAsset = {
 };
 
 const imageAssets: ImageAsset[] = [
-  { id: 1, url: "/photos/guard.png" },
-  { id: 2, url: "/photos/kingL.png" },
-  { id: 3, url: "/photos/kingV.png" },
-  { id: 4, url: "/photos/largeria.png" },
-  { id: 5, url: "/photos/princeL.png" },
-  { id: 6, url: "/photos/princeV.png" },
-  { id: 7, url: "/photos/queenL.png" },
-  { id: 8, url: "/photos/queenV.png" },
+  { id: 1, url: "/photos/1.png" },
+  { id: 2, url: "/photos/2.png" },
+  { id: 3, url: "/photos/3.png" },
+  { id: 4, url: "/photos/4.png" },
+  { id: 5, url: "/photos/5.png" },
+  { id: 6, url: "/photos/6.png" },
+  { id: 7, url: "/photos/7.png" },
+  { id: 8, url: "/photos/8.png" },
 ];
 
 let icons: number[] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
@@ -136,8 +136,8 @@ const Game: React.FC = () => {
                 <Image
                   src={getAssetUrl(icon)}
                   alt="Character"
-                  width={500}
-                  height={400}
+                  width={100}
+                  height={100}
                   className="rounded-md"
                 />
               </div>
