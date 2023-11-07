@@ -111,7 +111,7 @@ const Game: React.FC = () => {
 
   return (
     <>
-      <div className="bg-black lg:grid lg:grid-cols-2  text-white">
+      <div className="bg-black lg:grid lg:grid-cols-2  text-white ">
         <div className="flex flex-col items-center justify-center p-4">
           <h1 className="text-4xl font-bold mb-2 text-white">
             Match the shapes

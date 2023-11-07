@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Darker_Grotesque } from "@next/font/google";
+import { Darker_Grotesque } from "next/font/google";
 
 const DarkerGrotesque = Darker_Grotesque({
   subsets: ["latin"],
@@ -8,5 +8,9 @@ const DarkerGrotesque = Darker_Grotesque({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <main className={DarkerGrotesque.className}>
+      <Component {...pageProps} />
+    </main>
+  );
 }
