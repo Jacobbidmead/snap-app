@@ -96,18 +96,17 @@ const Game: React.FC = () => {
     }
   };
 
-  // Use this function to end the game
-  const endGame = () => {
-    setGameStatus(`Well done! You matched the shapes in ${moves} moves`);
-    setCards([]);
-  };
-
-  // Reset the game when the game ends
+  // Define the function inside useEffect if it's the only place it is used.
   useEffect(() => {
+    const endGame = () => {
+      setGameStatus(`Well done! You matched the shapes in ${moves} moves`);
+      setCards([]);
+    };
+
     if (matchedPairs.length === icons.length) {
       endGame();
     }
-  }, [matchedPairs, icons.length]);
+  }, [matchedPairs, moves]); // Include all dependencies used inside useEffect
 
   return (
     <>
