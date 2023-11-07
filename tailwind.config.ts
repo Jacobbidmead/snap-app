@@ -10,9 +10,11 @@ module.exports = {
       backgroundColor: {
         "custom-blue": "rgb(35, 38, 70)",
         "custom-cream": "rgb(241, 243, 229)",
+        "custom-green": "rgb(221, 255, 141)",
       },
       textColor: {
         "custom-green": "rgb(221, 255, 141)",
+        "custom-blue": "rgb(35, 38, 70)",
       },
       screens: {
         "md-sm-nav": "1023px",

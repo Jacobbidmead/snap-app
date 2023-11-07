@@ -113,16 +113,24 @@ const Game: React.FC = () => {
     <>
       <div className="bg-black lg:grid lg:grid-cols-2  text-white ">
         <div className="flex flex-col items-center justify-center p-4">
-          <h1 className="text-4xl font-bold mb-2 text-white">
+          <h1 className="lg:text-6xl xs:text-4xl xs:pt-4 font-bold mb-2 text-custom-green">
             Match the shapes
           </h1>
 
-          <button onClick={randomIcons}>Restart Game</button>
           <Scoreboard score={score} moves={moves} />
+
+          <button
+            onClick={randomIcons}
+            className="px-4 py-2 lg:mt-5 xs:mt-4 lg:text-2xl xs:text-[12px] border border-gray-300 rounded-3xl hover:bg-custom-green hover:text-custom-blue hover:border-transparent transition duration-300 ease-in-out"
+          >
+            Restart Game
+          </button>
 
           <div>
             {gameStatus && (
-              <div className="game-status-message">{gameStatus}</div>
+              <div className="game-status-message text-white pt-5 text-2xl">
+                {gameStatus}
+              </div>
             )}
           </div>
         </div>

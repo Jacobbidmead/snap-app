@@ -18,8 +18,10 @@ const Scoreboard: React.FC<Props> = ({ score, moves }) => {
   return (
     <>
       {" "}
-      <div>Matches: {score}</div>
-      <div>Moves: {moves}</div>
+      <div className="lg:text-2xl xs:text-[14px] pt-5">Matches: {score}</div>
+      <div className="lg:text-2xl xs:text-[14px] pt-5 xs:pb-2">
+        Moves: {moves}
+      </div>
     </>
   );
 };
