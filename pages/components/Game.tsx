@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Scoreboard from "./scoreboard";
-import Home from "./home";
+import { motion } from "framer-motion";
 
 type Card = {
   index: number;
@@ -119,16 +119,19 @@ const Game: React.FC = () => {
 
           <Scoreboard score={score} moves={moves} />
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
             onClick={randomIcons}
-            className="px-4 py-2 lg:mt-5 xs:mt-4 lg:text-2xl xs:text-[12px] border border-gray-300 rounded-3xl hover:bg-custom-green hover:text-custom-blue hover:border-transparent transition duration-300 ease-in-out"
+            className="px-4 py-2 lg:mt-5 xs:mt-4 lg:text-2xl xs:text-[12px] border border-gray-300 rounded-3xl hover:bg-custom-green hover:text-custom-blue hover:border-transparent "
           >
             Restart Game
-          </button>
+          </motion.button>
 
           <div>
             {gameStatus && (
-              <div className="game-status-message text-white pt-5 text-2xl">
+              <div className="game-status-message text-custom-green pt-5 lg:text-2xl xs:text-[18px]">
                 {gameStatus}
               </div>
             )}
