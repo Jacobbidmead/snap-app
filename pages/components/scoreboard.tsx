@@ -18,7 +18,7 @@ const Scoreboard: React.FC<Props> = ({ score, moves }) => {
   return (
     <>
       {" "}
-      <div>Score: {score}</div>
+      <div>Matches: {score}</div>
       <div>Moves: {moves}</div>
     </>
   );

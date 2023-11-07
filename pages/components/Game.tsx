@@ -98,7 +98,7 @@ const Game: React.FC = () => {
 
   // Use this function to end the game
   const endGame = () => {
-    setGameStatus(`You win!! you matched the shapes in ${moves} moves`);
+    setGameStatus(`Well done! You matched the shapes in ${moves} moves`);
     setCards([]);
   };
 
@@ -111,7 +111,7 @@ const Game: React.FC = () => {
 
   return (
     <>
-      <div className="bg-black grid grid-cols-2 text-white">
+      <div className="bg-black lg:grid lg:grid-cols-2  text-white">
         <div className="flex flex-col items-center justify-center p-4">
           <h1 className="text-4xl font-bold mb-2 text-white">
             Match the shapes
@@ -127,10 +127,10 @@ const Game: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-6 h-screen p-10">
+        <div className="grid lg:grid-cols-4 xs:grid-cols-4 xs:gap-1 gap-6 h-screen p-2">
           {showIcons.map((icon, index) => (
             <div
-              className="flip-card h-full text-black rounded-md cursor-pointer p-1 "
+              className="flip-card  text-black rounded-md cursor-pointer p-1 "
               key={index}
               onClick={() => handleShowCard(index)}
             >
@@ -147,7 +147,7 @@ const Game: React.FC = () => {
                     src={"/photos/card.png"}
                     alt="Character"
                     layout="fill" // Changed to fill for responsive images
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw"
                     objectFit="cover" // Ensures the image covers the card
                     className="rounded-md card-shadow"
                   />
@@ -157,7 +157,7 @@ const Game: React.FC = () => {
                     src={getAssetUrl(icon)}
                     alt="Character"
                     layout="fill" // Changed to fill for responsive images
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw"
                     objectFit="cover" // Ensures the image covers the card
                     className="rounded-md card-shadow"
                   />
