@@ -45,20 +45,16 @@ Set-Up
 <img width="465" alt="Screenshot 2023-12-04 at 14 23 09" src="https://github.com/Jacobbidmead/snap-app/assets/107250881/516a215e-902c-4ac3-9e63-913953a2328f"/>
 
 
-#### Testing
-- **Unit Tests**: Describe how unit tests are structured (if applicable).
-- **End-to-End Tests**: Outline any end-to-end tests implemented.
+Deployment
+- Depolyed with Vercel.
 
-#### Deployment
-- Instructions on how to deploy the game using Vercel or other platforms.
+Improvements and future plans
+- Then addition of a log in system with a score board to record high scorers
+- Additional levels that become harder as the user moves through the game
+- A score based on the time it takes to complete the game aswell as the number of moves.
 
-#### Contributing
-- Guidelines for contributing to the project (e.g., pull requests, coding standards).
+Conclusion
+- The main reason for making this game was to imporve my skillset as a developer, especially with Next.js & TypeScript, however I think this finished version of the game is quite fun and works well, and want to continue to work on and improve it in the future.
 
-#### License
-- Specify the license under which the project is released.
 
-### Conclusion
-- Summarize the game's purpose and encourage users to try it out and contribute.
 
-Remember, good documentation is clear, concise, and helps users understand how to install, use, and contribute to your project effectively.
